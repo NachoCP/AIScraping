@@ -46,6 +46,8 @@ The process of web scraping can be enhanced significantly by incorporating LLMs.
 code from the webpage and use the LLM to extract the objects from it. This approach can reduce maintenance 
 efforts when HTML structures change, as the content itself typically remains the same.
 
+![web-scrapper](images/web-scrapper.png)
+
 Here’s how the architecture of such an integrated system would look:
 
 1. **Getting HTML**: Use tools like Selenium or Requests to fetch the HTML content of a webpage.
@@ -182,7 +184,7 @@ activites = chain.invoke(input={
 activites.Activities
 ```
 
-Here is what the data looks like; it takes 46 seconds to scrape the entire webpage.
+Here is what the data looks like, it takes 46 seconds to scrape the entire webpage.
 
 ```notebook
 [Activity(title='Paseo en barco al anochecer', rating=8.4, reviews_count=9439, travelers_count=118389, cancellation_policy='Cancelación gratuita', description='En este crucero disfrutaréis de las mejores vistas de Budapest cuando se viste de gala, al anochecer. El barco es panorámico y tiene partes descubiertas.', duration='1 hora', language='Español', category='Paseos en barco', price=21.0, currency='€'),
@@ -191,6 +193,24 @@ Here is what the data looks like; it takes 46 seconds to scrape the entire webpa
 ]
 ```
 
-## Addressing JavaScript Challenges with Selenium and LLMs
+## Demo and full repository
+
+I have created a quick demo using Streamlit.
+
+In the first part, you are introduced to the model. You can add as many rows as you need and specify the name, type, and description of each attribute. This will automatically generate a Pydantic model to be used in the web scraping component.
+
+The second part allows you to enter the desired URL, and the scraped data will be displayed at the bottom of the page. There is also a download button for exporting the data in JSON format.
+
+Feel free to explore and experiment with it!
+
+![image_scraper](images/ai_scraper.png)
 
 ## Conclusion
+
+As we harness the ever-evolving capabilities of Large Language Models (LLMs), we uncover new possibilities for efficiently extracting valuable information from websites. 
+
+By automating the tedious process of web scraping, LLMs not only save time but also ensure a high degree of accuracy in data retrieval. Our experience using custom LLM configurations to scrape and reformat data into JSON highlights the practical applications of this technology in real-world scenarios. 
+
+However, we must consider that sending HTML to the LLM incurs costs, and not all web scraping tasks should be handled with an LLM.
+
+The right tool for the right job!
