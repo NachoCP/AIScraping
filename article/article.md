@@ -195,7 +195,7 @@ Here is what the data looks like, it takes 46 seconds to scrape the entire webpa
 
 ## Demo and full repository
 
-I have created a quick demo using Streamlit.
+I have created a quick demo using Streamlit available [here](https://github.com/NachoCP/AIScraping).
 
 In the first part, you are introduced to the model. You can add as many rows as you need and specify the name, type, and description of each attribute. This will automatically generate a Pydantic model to be used in the web scraping component.
 
