@@ -2,6 +2,7 @@
 
 Welcome to AI Scraper, a powerful tool built with Streamlit and the LangChain library, designed to transform unstructured web data into structured, actionable insights. This application makes it easy to scrape data from websites and automatically generate Pydantic models for structured data extraction.
 
+Check this [article](article/article.md), If you wanted to know more about this project.
 
 ## Features
 
