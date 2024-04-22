@@ -209,8 +209,12 @@ Feel free to explore and experiment with it!
 
 As we harness the ever-evolving capabilities of Large Language Models (LLMs), we uncover new possibilities for efficiently extracting valuable information from websites. 
 
-By automating the tedious process of web scraping, LLMs not only save time but also ensure a high degree of accuracy in data retrieval. Our experience using custom LLM configurations to scrape and reformat data into JSON highlights the practical applications of this technology in real-world scenarios. 
+By automating the tedious process of web scraping, LLMs not only save time but also ensure a high degree of accuracy in data retrieval. This automation reduces human error and increases the consistency of the data collected, which is particularly valuable in scenarios where large volumes of information are processed. 
 
-However, we must consider that sending HTML to the LLM incurs costs, and not all web scraping tasks should be handled with an LLM.
+Our experience using custom LLM configurations to scrape and reformat data into JSON has demonstrated the practical applications of this technology in real-world scenarios.
+
+However, we must consider that sending raw HTML to the LLM incurs a token cost. Since HTML often includes various tags, attributes, and content, the token count can quickly add up, leading to higher usage of computational resources.  LLMs charge based on the number of tokens processed, meaning extensive or complex HTML structures can significantly increase the expense. 
+
+Therefore, it's important to preprocess and clean the HTML, removing unnecessary tags and metadata, to reduce the token count before submission. This approach helps manage costs effectively while still leveraging the powerful capabilities of LLMs for web scraping and data extraction.
 
 The right tool for the right job!
