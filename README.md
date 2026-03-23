@@ -1,83 +1,71 @@
-# 🤖🌐 AI Scraper
+# AI Scraper
 
-Welcome to AI Scraper, a powerful tool built with Streamlit and the LangChain library, designed to transform unstructured web data into structured, actionable insights. This application makes it easy to scrape data from websites and automatically generate Pydantic models for structured data extraction.
+> **v2.0** — Production-grade rebuild of the original [LLM web scraping PoC](https://medium.com/@ignacio.cplatas/enhancing-web-scraping-with-large-language-models-a-modern-approach-6216d5bba8d5) (2024).
 
-Check this [article](article/article.md), If you wanted to know more about this project.
+Define a schema, provide a URL, get structured data. No CSS selectors, no XPath, no manual HTML parsing.
 
-## Features
+## What changed (2024 → 2026)
 
-- **Model Definition:** Dynamically create Pydantic models based on user-defined schemas directly from the UI.
-- **Data Extraction:** Enter a URL and scrape data according to the defined Pydantic model.
-- **Data Download:** Export the scraped data in JSON format for ease of use in further applications.
+| Layer | v1 (2024) | v2 (2026) |
+|-------|-----------|-----------|
+| Crawling | `requests` + BeautifulSoup | **Crawl4AI** — async Playwright, JS rendering, clean markdown |
+| Extraction | LangChain + PydanticOutputParser | **Native structured output** — `openai.parse()` / `anthropic.parse()` |
+| Schema | 3 types (str, int, float) | 5 types + dynamic Pydantic v2 models |
+| Models | OpenAI only | **OpenAI + Anthropic** |
+| Error handling | None | Retries, exponential backoff, user-facing messages |
+| UI | Custom Streamlit rows | `st.data_editor` + `st.status` |
 
-## How It Works
+The original was a PoC — no error handling, no retries, one model, fragile parsing. This rebuild produces a production-grade tool with the same time investment.
 
-AI Scraper operates in two main stages:
-
-1. **Model Creation:**
-   - Define your data model by specifying attributes such as name, type, and description.
-   - Validate the model to ensure all fields are correctly filled out.
-   - Automatically generate a Pydantic model to be used in the scraping process.
-
-2. **Data Scraping:**
-   - Enter the URL of the website from which you want to scrape data.
-   - Execute the scraping process, which uses the previously defined Pydantic model to parse and structure the HTML content.
-   - Download the structured data as a JSON file or view it directly within the app.
-
-### How to Use
-
-#### Craft Your Model
-Start by defining your data model in the provided table format. Ensure each attribute is carefully described, specifying the type and a brief description.
-
-#### Mark the Spot
-Input the URL of the webpage you wish to scrape. The application supports various content types as long as they can be parsed into HTML.
-
-#### Summon the Data
-Click the 'Generate Pydantic Model and Scrape' button to start the extraction process. The data matching your model will be retrieved and displayed.
-
-#### Treasure Awaits
-Download the structured data in JSON format, or explore it directly within the application.
-
-## Setup and Installation
-
-1. Clone the Repository:
-```bash
-git clone https://yourrepositorylink.git
-```
-
-2. Create a venv and install all the requirements:
+## Quick Start
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+# Clone and install
+git clone https://github.com/NachoCP/AIScraping.git
+cd AIScraping
+pip install .
 
-3. You will need the following .env file
-```bash
-# OPENAI Key
-OPENAI_API_KEY=<OPENAI_API_KEY>
-```
-4. To init the application run
-   
-```bash
+# Install browser (needed for Crawl4AI)
+crawl4ai-setup
+
+# Set your API key
+cp .env.example .env
+# Edit .env with your OPENAI_API_KEY and/or ANTHROPIC_API_KEY
+
+# Run
 streamlit run app.py
 ```
 
-## Dependencies
+## Docker
 
-Streamlit
-LangChain
-Pydantic
-Requests
-dotenv
-json
+```bash
+docker build -t aiscraper .
+docker run -p 8501:8501 --env-file .env aiscraper
+```
 
-## Contributing
-Feel free to fork the repository, make changes, and submit pull requests. If you encounter any issues or have suggestions for improvement, please submit an issue.
+## How it works
 
+1. **Define your schema** — Use the interactive table to add fields (name, type, description)
+2. **Enter a URL** — Any webpage, including JS-rendered pages
+3. **Extract** — Crawl4AI fetches and converts the page to markdown, then the LLM extracts structured data matching your schema
+4. **Download** — Get your data as JSON
 
-## Acknowledgments
+## Architecture
 
-LangChain Library: For providing the tools to integrate AI capabilities seamlessly.
-Streamlit: For making it possible to build interactive web applications quickly and easily.
+```
+Streamlit UI → Crawl4AI (async, Playwright) → LLM SDK (structured output) → JSON
+```
+
+- `src/crawler.py` — Crawl4AI wrapper with ThreadPoolExecutor bridge for Streamlit
+- `src/extractor.py` — Multi-model extraction (OpenAI / Anthropic) with tenacity retry
+- `src/schema_builder.py` — Dynamic Pydantic v2 model creation
+- `src/config.py` — Provider configuration and settings
+
+## Requirements
+
+- Python 3.11+
+- An OpenAI or Anthropic API key
+
+## Original Article
+
+This project accompanies the article: [Enhancing Web Scraping with Large Language Models: A Modern Approach](https://medium.com/@ignacio.cplatas/enhancing-web-scraping-with-large-language-models-a-modern-approach-6216d5bba8d5)
