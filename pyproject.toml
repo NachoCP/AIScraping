@@ -1,0 +1,15 @@
+[project]
+name = "aiscraping"
+version = "2.0.0"
+description = "AI-powered web scraping with structured extraction — rebuilt for 2026"
+requires-python = ">=3.11"
+dependencies = [
+    "crawl4ai>=0.8.5",
+    "openai>=1.60.0",
+    "anthropic>=0.45.0",
+    "pydantic>=2.10.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.34.0",
+    "python-dotenv>=1.0.0",
+    "tenacity>=9.0.0",
+]
